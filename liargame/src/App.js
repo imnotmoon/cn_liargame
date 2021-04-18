@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react'
+// import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import InGame from './views/InGame'
+import Waiting from './views/Waiting'
+import Header from './components/Header'
+import NicknameModal from './components/NicknameModal'
 
-function App() {
+
+export default function App() {
+
+  const [nickname, setNickname] = useState('')
+  const [nowPlaying, setNowPlaying] = useState(0)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NicknameContext.Provider value={[nickname, setNickname]} >
+      <div className="App">
+        <Header />
+        <NowPlayingContext.Provider value={setNowPlaying} >
+          {
+            nowPlaying !== 0 ? <InGame liar={nowPlaying} /> : <Waiting />
+          }
+        </NowPlayingContext.Provider>
+        {!nickname && <NicknameModal setNickname={setNickname} />}
+      </div>
+    </NicknameContext.Provider>
   );
 }
 
-export default App;
+
+// NicknameContext
+export const NicknameContext = React.createContext()
+export const NowPlayingContext = React.createContext()
