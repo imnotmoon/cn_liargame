@@ -1,0 +1,23 @@
+.vote__title {
+    padding-top: 10px;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.vote__cell {
+    width: 80%;
+    height: 40px;
+    padding-top: 20px;
+    margin-left: 10%;
+    display: flex;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    justify-content: space-around;
+
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.check {
+    background-color: rgba(187, 187, 187, 0.247);
+}

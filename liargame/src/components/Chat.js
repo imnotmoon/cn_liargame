@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ChatMessage from './ChatMessage'
+import './Chat.css'
 
 Chat.propTypes = {
     // 채팅방의 제목
@@ -36,7 +37,7 @@ function Chat({ title }) {
             </div>
             <div className="chat__content">
                 {messages.map((chat, index) => (
-                    <ChatMessage key={index} chat={chat} />
+                    <ChatMessage key={index} chat={chat} className="chat__messages" />
                 ))}
             </div>
             <div className="chat__sender">

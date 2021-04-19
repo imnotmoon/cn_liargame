@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { NicknameContext } from '../App'
 import { PlayerContext } from '../views/InGame'
+import { isPartiallyEmittedExpression } from 'typescript'
+import './Vote.css'
 
 Vote.propTypes = {
     // 라이어인지 아닌지
@@ -19,12 +21,16 @@ function Vote({ liar, title }) {
 
     const onCheck = (e) => {
         if (voteCnt > 0) {
-            // 클릭된 플레이어의 인덱스 가져오기 + 클릭된 플레이어에게 체크
-
-            // 다른 플레이어에 체크되어있다면 제거
+            // 클릭된 플레이어의 인덱스 가져오기 + 클릭된 플레이어에게 체크 + 다른 플레이어에게 체크된거 제거
+            players.forEach((player) => {
+                player.vote = player.nickname === e.currentTarget.getAttribute('data') ? 1 : 0
+            })
+            console.log(players)
 
             // voteCnt 하나 내리기
             setVoteCnt(voteCnt => voteCnt - 1)
+        } else {
+            alert('더 이상 투표할 수 없습니다')
         }
     }
 
@@ -39,7 +45,7 @@ function Vote({ liar, title }) {
                         ? <div className="vote__players">
                             {players.map((player, index) => (
                                 player.nickname !== nickname && (
-                                    <div key={index} onClick={onCheck}>
+                                    <div key={index} onClick={onCheck} data={player.nickname} className={"vote__cell" + (player.vote === 1 ? " check" : "")}>
                                         <span>{player.nickname}</span>
                                         <div className="vote__check">O</div>
                                     </div>

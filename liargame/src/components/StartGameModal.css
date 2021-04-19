@@ -1,0 +1,24 @@
+.title {
+    padding-top: 7%;
+    font-size: 20px;
+    padding-bottom: 0px;
+}
+
+.title p {
+    margin-bottom: 0px;
+}
+
+.word {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.word p {
+    margin-top: 0px;
+}
+
+.modal {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+}

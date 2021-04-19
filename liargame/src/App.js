@@ -21,7 +21,11 @@ export default function App() {
             nowPlaying !== 0 ? <InGame liar={nowPlaying} /> : <Waiting />
           }
         </NowPlayingContext.Provider>
-        {!nickname && <NicknameModal setNickname={setNickname} />}
+        {!nickname &&
+          <>
+            <NicknameModal setNickname={setNickname} />
+            <div className="modal-background"></div>
+          </>}
       </div>
     </NicknameContext.Provider>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NicknameContext } from '../App'
 import PropTypes from 'prop-types'
+import './NicknameModal.css'
 
 
 NicknameModal.propTypes = {
@@ -23,11 +24,11 @@ export default function NicknameModal({ setNickname }) {
     return (
         <NicknameContext.Consumer>
             {() => (
-                <div className="nicknameModal frame">
-                    <div>
-                        대충 안밋밋하게 할만한거
+                <div className="nicknameModal frame modal">
+                    <div className="title">
+                        안녕하세요!
                     </div>
-                    <div>
+                    <div className="content">
                         <p>사용할 닉네임을 입력해주세요.</p>
                     </div>
                     <input type="text" placeholder="닉네임" onChange={onInputChange} />

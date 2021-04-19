@@ -1,9 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function FinishModal() {
+FinishModal.propTypes = {
+    liar: PropTypes.bool.isRequired
+}
+
+function FinishModal({ liar }) {
     return (
-        <div className="finishModal frame">
-
+        <div className="finishModal frame modal">
+            finish modal
         </div>
     )
 }

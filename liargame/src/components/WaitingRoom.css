@@ -1,0 +1,23 @@
+.waitingRoom {
+    height: 400px;
+}
+
+.waitingRoom__title {
+    padding-top: 10px;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.waitingRoom__player {
+    width: 60%;
+    height: 40px;
+    padding-bottom: 10px;
+    margin-left: 20%;
+    display: flex;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    justify-content: space-around;
+
+    font-weight: 300;
+    font-size: 20px;
+}

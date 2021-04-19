@@ -3,6 +3,7 @@ import Chat from '../components/Chat'
 import { NicknameContext, NowPlayingContext } from '../App'
 import WaitingRoom from '../components/WaitingRoom'
 import StartGameModal from '../components/StartGameModal'
+import './Waiting.css'
 
 export default function Waiting() {
     const [nickname, _] = useContext(NicknameContext)
@@ -44,16 +45,21 @@ export default function Waiting() {
         <NicknameContext.Consumer>
             {() => (
                 <>
+                    <button onClick={addPlayer}>테스트</button>
                     <NowPlayingContext.Consumer>
                         {() => (
-                            <div>
+                            <div className="waiting">
                                 <WaitingRoom players={players} />
                                 <Chat title={"채팅"} />
                             </div>
                         )}
                     </NowPlayingContext.Consumer>
-                    <button onClick={addPlayer}>테스트용 플레이어 추가 버튼</button>
-                    { activeModal && <StartGameModal liar={liar} word={word} />}
+                    { activeModal &&
+                        <>
+                            <StartGameModal liar={liar} word={word} />
+                            <div className="modal-background"></div>
+                        </>}
+
                 </>
             )}
         </NicknameContext.Consumer>

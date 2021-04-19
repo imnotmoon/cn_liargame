@@ -1,0 +1,35 @@
+.title {
+    padding-top: 10%;
+    font-size: 20px;
+    padding-bottom: 7%;
+}
+
+.submitBtn {
+    margin-top: 5%;
+    border: 1px solid #929292;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 10px;
+    width: 30%;
+    margin-left: 35%;
+    cursor: pointer;
+}
+
+.submitBtn:hover {
+    background-color: #d1d1d1;
+    transition-property: background-color;
+    transition: ease;
+    transition-duration: 300ms;
+}
+
+input {
+    height: 20px;
+    border: none;
+    border-bottom: 1px solid rgb(65, 65, 65);
+}
+
+input:focus {
+    outline: unset;
+    border: none;
+    border-bottom: 1px solid rgb(0, 0, 0);
+}

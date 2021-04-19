@@ -1,0 +1,42 @@
+.chat {
+    height: 400px;
+}
+
+.chat__title {
+    padding-top: 10px;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.chat__content {
+    height: 70%;
+}
+.chat__sender {
+    position: relative;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+input {
+    width: 65%;
+    height: 30px;
+    margin-left: 10px;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+.chat__sender button {
+    margin-right: 10px;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 15%;
+    height: 30px;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: unset;
+}

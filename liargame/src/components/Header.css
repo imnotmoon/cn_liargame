@@ -1,0 +1,16 @@
+.header {
+    box-shadow: 2px 3px 3px #e4e4e4;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.header_exitBtn {
+    text-align: center;
+}
+
+.header p {
+    padding : 0px 70px;
+    font-size: 20px;
+    font-weight: 700;
+}

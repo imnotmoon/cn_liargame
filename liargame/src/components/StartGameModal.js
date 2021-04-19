@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import './StartGameModal.css'
 
 StartGameModal.propTypes = {
     // 라이어라면 true, 아니면 false
@@ -13,8 +14,8 @@ StartGameModal.propTypes = {
 
 function StartGameModal({ liar, word }) {
     return (
-        <div className="startGameModal frame">
-            <div>
+        <div className="startGameModal frame modal">
+            <div className="title">
                 {liar
                     ? <p>당신은 라이어입니다.</p>
                     : <p>당신은 라이어가 아닙니다.</p>
@@ -22,7 +23,7 @@ function StartGameModal({ liar, word }) {
             </div>
 
             {!liar &&
-                <div>
+                <div className="word">
                     <div>
                         <p>{word}</p>
                     </div>

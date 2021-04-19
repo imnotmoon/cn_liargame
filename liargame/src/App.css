@@ -4,7 +4,24 @@
 
 .frame {
   border-radius: 3px;
-  box-shadow: 2px 2px 3px #d4d4d4;
+  box-shadow: 2px 2px 3px 2px #e2e2e2;
   width: 30%;
   max-width: 400px;
+  min-width: 300px;
+}
+
+.modal-background {
+  background-color: rgba(148, 148, 148, 0.342);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.modal {
+  background-color: white;
+  box-shadow: 2px 2px 3px 1px #858484;
+  z-index: 999;
 }
