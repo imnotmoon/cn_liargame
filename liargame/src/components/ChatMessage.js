@@ -12,10 +12,10 @@ function ChatMessage({ chat }) {
     const { content, from } = chat
 
     return (
-        <div className={from === 'self' ? "chatMessage my_message" : "chatMessage"}>
-            <span>{from === 'self' ? '' : from}</span>
-            <span>{content}</span>
-        </div>
+        <span className={from === 'self' ? "chatMessage my_message" : "chatMessage"}>
+            <span className="chat__profile">{from === 'self' ? '' : from}</span>
+            <span className="chat__text">{content}</span>
+        </span>
     )
 }
 

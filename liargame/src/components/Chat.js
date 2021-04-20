@@ -8,7 +8,7 @@ Chat.propTypes = {
     title: PropTypes.string.isRequired
 }
 
-function Chat({ title }) {
+function Chat({ title, mount }) {
 
     const [inputMessage, setInputMessage] = useState('')    // 지금 입력하고 있는 메시지 내용
     const [messages, setMessages] = useState([])        // 대화내용
@@ -28,7 +28,30 @@ function Chat({ title }) {
         setMessages(messages => [...messages, {
             content: inputMessage, from: 'self'
         }])
+        setInputMessage('')
     }
+
+    const inputEnterEvent = (e) => {
+        if (e.key === 'Enter' || e.key === 'Return') {
+            setMessages(messages => [...messages, {
+                content: inputMessage, from: 'self'
+            }])
+            setInputMessage('')
+        }
+    }
+
+    useEffect(() => {
+        if (mount) {
+            document.getElementById('input-text').addEventListener('keypress', inputEnterEvent)
+            return () => {
+                try {
+                    document.getElementById('input-text').removeEventListener('keypress', inputEnterEvent)
+                } catch {
+                    console.log("아직..")
+                }
+            }
+        }
+    })
 
     return (
         <div className="chat frame">
@@ -41,7 +64,7 @@ function Chat({ title }) {
                 ))}
             </div>
             <div className="chat__sender">
-                <input type="text" onChange={onInputChange} />
+                <input type="text" onChange={onInputChange} value={inputMessage} id="input-text" />
                 <button onClick={onSubmitClick}>전송</button>
             </div>
         </div>

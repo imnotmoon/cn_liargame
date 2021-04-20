@@ -50,7 +50,7 @@ export default function Waiting() {
                         {() => (
                             <div className="waiting">
                                 <WaitingRoom players={players} />
-                                <Chat title={"채팅"} />
+                                <Chat title={"채팅"} mount={true} />
                             </div>
                         )}
                     </NowPlayingContext.Consumer>

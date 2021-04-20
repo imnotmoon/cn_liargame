@@ -10,7 +10,9 @@
 }
 
 .chat__content {
-    height: 70%;
+    height: 65%;
+    overflow-y: scroll;
+    margin-bottom: 10px;
 }
 .chat__sender {
     position: relative;
@@ -39,4 +41,24 @@ input {
 
 button:focus {
     outline: unset;
+}
+
+.chatMessage {
+    display: flex;
+    /* flex-direction: row; */
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 50px;
+}
+
+.chat__text {
+    border: 1px solid #929292;
+    padding: 7px 10px;
+    border-radius: 10px;
+}
+
+.my_message {
+    justify-content: space-between;
+    
 }

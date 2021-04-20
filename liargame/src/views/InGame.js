@@ -13,7 +13,7 @@ InGame.propTypes = {
 
 export default function InGame({ liar }) {
 
-    const [gameTime, setGameTime] = useState(120)
+    const [gameTime, setGameTime] = useState(5)
     const [didMount, setDidMount] = useState(false)
     const [players, setPlayers] = useState([])
     const [finishModal, setFinishModal] = useState(false)
@@ -35,7 +35,7 @@ export default function InGame({ liar }) {
 
     // 120초 타이머 -> 끝나면 finish modal을 띄운다.
     const startTimer = () => {
-        let i = 120
+        let i = 5
         let timer = setInterval(() => {
             setGameTime(gameTime => gameTime - 1, i -= 1)
             if (i === 0) {
@@ -60,17 +60,18 @@ export default function InGame({ liar }) {
                                     : <Vote liar={true} title="나를 지목한 사람" />
                                 }
                             </PlayerContext.Provider>
-                            <Chat title={liar === 1 ? "단어를 설명해주세요" : "단어에 대해 아는척 해주세요"} />
+                            <Chat title={liar === 1 ? "단어를 설명해주세요" : "단어에 대해 아는척 해주세요"} mount={didMount} />
                         </div>
+                        {finishModal &&
+                            <>
+                                <FinishModal liar={liar} nickname={nickname} />
+                                <div className="modal-background"></div>
+                            </>
+                        }
                     </>
                 )
                 }
             </NicknameContext.Consumer>
-            { finishModal &&
-                <>
-                    <FinishModal liar={liar} />
-                    <div className="modal-background"></div>
-                </>}
         </>
     )
 }
