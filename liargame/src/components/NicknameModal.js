@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { NicknameContext } from '../App'
+import { NicknameContext, socket } from '../App'
 import PropTypes from 'prop-types'
 import './NicknameModal.css'
-
 
 NicknameModal.propTypes = {
     // nickname의 setter
@@ -18,7 +17,14 @@ export default function NicknameModal({ setNickname }) {
     }
 
     const onButtonClick = (e) => {
-        setNickname(currentNickname)
+        setNickname(currentNickname);
+        (() => {
+            socket.emit('enter', {
+                "state": 'enter',
+                "player": currentNickname
+            })
+            console.log("emit message")
+        })()
     }
 
     return (

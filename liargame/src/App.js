@@ -1,11 +1,14 @@
 import './App.css';
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 // import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import InGame from './views/InGame'
 import Waiting from './views/Waiting'
 import Header from './components/Header'
 import NicknameModal from './components/NicknameModal'
+import io from 'socket.io-client'
+import { IP_ADDRESS, PORT } from './networking/constants'
 
+export const socket = io(IP_ADDRESS+PORT);
 
 export default function App() {
 

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Chat from '../components/Chat'
-import { NicknameContext, NowPlayingContext } from '../App'
+import { NicknameContext, NowPlayingContext, socket } from '../App'
 import WaitingRoom from '../components/WaitingRoom'
 import StartGameModal from '../components/StartGameModal'
 import './Waiting.css'
@@ -18,6 +18,19 @@ export default function Waiting() {
     useEffect(() => {
         setPlayers([nickname])
     }, [nickname])
+
+    useEffect(() => {
+        // 서버로부터 받은 메시지
+        socket.on('enter', req => {
+            console.log('enter', req)
+        })
+        socket.on('chat', req => {
+            console.log('chat', req)
+        })
+        socket.on('gameset', req => {
+            console.log('gameset', req)
+        })
+    }, [])
 
     //! Test -> 지금은 버튼이지만 나중에는 서버에서 받은 값으로부터 트리거될것
     const addPlayer = () => {

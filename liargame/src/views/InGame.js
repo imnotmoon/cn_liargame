@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { NicknameContext } from '../App'
+import { NicknameContext, socket } from '../App'
 import Chat from '../components/Chat'
 import Vote from '../components/Vote'
 import FinishModal from '../components/FinishModal'
@@ -13,14 +13,20 @@ InGame.propTypes = {
 
 export default function InGame({ liar }) {
 
-    const [gameTime, setGameTime] = useState(5)
+    const [gameTime, setGameTime] = useState(120)
     const [didMount, setDidMount] = useState(false)
     const [players, setPlayers] = useState([])
     const [finishModal, setFinishModal] = useState(false)
     const [nickname, setNickname] = useContext(NicknameContext)
 
     useEffect(() => {
-        // 플레이어 리스트 받아오기
+        // 소켓통신
+        socket.on('chat', req => {
+            console.log('chat', req)
+        })
+        socket.on('result', req => {
+            console.log('result', req)
+        })
         //! 테스트용 데이터
         setPlayers([
             { nickname: "조세희", vote: 0 },
@@ -35,7 +41,7 @@ export default function InGame({ liar }) {
 
     // 120초 타이머 -> 끝나면 finish modal을 띄운다.
     const startTimer = () => {
-        let i = 5
+        let i = 120
         let timer = setInterval(() => {
             setGameTime(gameTime => gameTime - 1, i -= 1)
             if (i === 0) {
