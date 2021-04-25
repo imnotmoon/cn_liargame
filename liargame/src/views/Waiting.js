@@ -20,16 +20,29 @@ export default function Waiting() {
     }, [nickname])
 
     useEffect(() => {
-        // 서버로부터 받은 메시지
-        socket.on('enter', req => {
-            console.log('enter', req)
+
+        // socket : 서버로부터 받은 입장 메시지 처리. players 배열에 추가
+        socket.on('enter', async ({state, player}) => {
+            console.log('enter', player)
+
+            // pseudo code 
+            state === 'enter' && setPlayers(players => [...players, player])
         })
-        socket.on('chat', req => {
-            console.log('chat', req)
+
+        // socket : 서버로부터 받은 게임시작 메시지 처리.
+            // setLiar : 내가 라이어인지 아닌지
+            // setword : 라이어가 아니라면 설명해야 할 단어
+        socket.on('gameset', ({state, player, liar, word}) => {
+            console.log('gameset', player, liar, word)
+
+            if(state === 'gameset') {
+                liar ? setLiar(true) : setLiar(false)
+                liar && setWord(word)
+            }
         })
-        socket.on('gameset', req => {
-            console.log('gameset', req)
-        })
+
+        // socket : 컴포넌트 죽을때 리스너 제거
+        return socket.offAny()
     }, [])
 
     //! Test -> 지금은 버튼이지만 나중에는 서버에서 받은 값으로부터 트리거될것

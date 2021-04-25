@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import NicknameContext from '../App'
 import './FinishModal.css'
+import { socket } from '../App'
 
 FinishModal.propTypes = {
 
@@ -27,13 +28,22 @@ function FinishModal({ liar, nickname }) {
     const [picked, setPicked] = useState([])
     const [win, setWin] = useState(false)
 
+
+    // socket : 동기 안맞을수도 있음 -> result를 state로 바꿔주면됨
     useEffect(() => {
         console.log(result)
 
-        // 게임 결과를 전달받음
+        // socket : 게임 결과를 전달받음
+        socket.on('result', async ({state, liar, picked}) => {
+            console.log('result message received : ', liar, picked)
+
+            if(state == 'result') {
+                result.liar = liar
+                result.picked = picked
+            }
+        })
 
         // 결과(result) 데이터 처리
-        //! forEach가 안돌아감..
         if (liar === 2) {        // 내가 라이어인 경우
             let pickedCnt = 0
             Object.keys(result.picked).forEach((player) => {

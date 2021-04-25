@@ -20,13 +20,6 @@ export default function InGame({ liar }) {
     const [nickname, setNickname] = useContext(NicknameContext)
 
     useEffect(() => {
-        // 소켓통신
-        socket.on('chat', req => {
-            console.log('chat', req)
-        })
-        socket.on('result', req => {
-            console.log('result', req)
-        })
         //! 테스트용 데이터
         setPlayers([
             { nickname: "조세희", vote: 0 },
@@ -45,7 +38,11 @@ export default function InGame({ liar }) {
         let timer = setInterval(() => {
             setGameTime(gameTime => gameTime - 1, i -= 1)
             if (i === 0) {
-                //! 서버로 투표결과 전송
+
+                // socket : 서버로 투표결과 전송
+                const voteMessage = players.find((item) => item.vote === 1)
+                socket.emit('vote', voteMessage)
+
                 setFinishModal(true)
                 clearInterval(timer)
             }

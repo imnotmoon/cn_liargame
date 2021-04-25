@@ -18,12 +18,10 @@ export default function NicknameModal({ setNickname }) {
 
     const onButtonClick = (e) => {
         setNickname(currentNickname);
+
         (() => {
-            socket.emit('enter', {
-                "state": 'enter',
-                "player": currentNickname
-            })
-            console.log("emit message")
+            socket.emit('enter', )
+            console.log("emit 'enter' message : ")
         })()
     }
 

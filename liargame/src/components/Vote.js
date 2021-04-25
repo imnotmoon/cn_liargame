@@ -4,6 +4,7 @@ import { NicknameContext } from '../App'
 import { PlayerContext } from '../views/InGame'
 import { isPartiallyEmittedExpression } from 'typescript'
 import './Vote.css'
+import { socket } from '../App'
 
 Vote.propTypes = {
     // 라이어인지 아닌지
