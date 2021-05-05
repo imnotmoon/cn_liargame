@@ -9,8 +9,10 @@ import io from "socket.io-client";
 import { IP_ADDRESS, PORT } from "./networking/constants";
 
 const endPoint = "http://" + IP_ADDRESS + ":" + PORT;
-// export var socket = io.connect(`${endPoint}`);
-export var socket = io.connect("http://localhost:5000");
+export var socket = io.connect(`${endPoint}`, {
+	// path: "/",
+	transport: ["websocket"],
+});
 
 export default function App() {
 	const [nickname, setNickname] = useState("");
@@ -18,9 +20,9 @@ export default function App() {
 
 	useEffect(() => {
 		socket.on(
-			"connect",
-			() => {
-				socket.emit("chat", { data: 123123 });
+			"connection",
+			(data) => {
+				console.log(data);
 			},
 			[]
 		);
