@@ -8,8 +8,9 @@ import NicknameModal from "./components/NicknameModal";
 import io from "socket.io-client";
 import { IP_ADDRESS, PORT } from "./networking/constants";
 
-const endPoint = "http://" + "localhost" + ":" + PORT;
-export var socket = io.connect(`${endPoint}`);
+const endPoint = "http://" + IP_ADDRESS + ":" + PORT;
+// export var socket = io.connect(`${endPoint}`);
+export var socket = io.connect("http://localhost:5000");
 
 export default function App() {
 	const [nickname, setNickname] = useState("");
