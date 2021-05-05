@@ -1,40 +1,52 @@
-import './App.css';
-import React, { useState } from 'react'
+import "./App.css";
+import React, { useState, useEffect } from "react";
 // import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import InGame from './views/InGame'
-import Waiting from './views/Waiting'
-import Header from './components/Header'
-import NicknameModal from './components/NicknameModal'
-import io from 'socket.io-client'
-import { IP_ADDRESS, PORT } from './networking/constants'
+import InGame from "./views/InGame";
+import Waiting from "./views/Waiting";
+import Header from "./components/Header";
+import NicknameModal from "./components/NicknameModal";
+import io from "socket.io-client";
+import { IP_ADDRESS, PORT } from "./networking/constants";
 
-export const socket = io(IP_ADDRESS+PORT);
+const endPoint = "http://" + "localhost" + ":" + PORT;
+export var socket = io.connect(`${endPoint}`);
 
 export default function App() {
+	const [nickname, setNickname] = useState("");
+	const [nowPlaying, setNowPlaying] = useState(0);
 
-  const [nickname, setNickname] = useState('')
-  const [nowPlaying, setNowPlaying] = useState(0)
+	useEffect(() => {
+		socket.on(
+			"connect",
+			() => {
+				socket.emit("chat", { data: 123123 });
+			},
+			[]
+		);
+	});
 
-  return (
-    <NicknameContext.Provider value={[nickname, setNickname]} >
-      <div className="App">
-        <Header />
-        <NowPlayingContext.Provider value={setNowPlaying} >
-          {
-            nowPlaying !== 0 ? <InGame liar={nowPlaying} /> : <Waiting />
-          }
-        </NowPlayingContext.Provider>
-        {!nickname &&
-          <>
-            <NicknameModal setNickname={setNickname} />
-            <div className="modal-background"></div>
-          </>}
-      </div>
-    </NicknameContext.Provider>
-  );
+	return (
+		<NicknameContext.Provider value={[nickname, setNickname]}>
+			<div className="App">
+				<Header />
+				<NowPlayingContext.Provider value={setNowPlaying}>
+					{nowPlaying !== 0 ? (
+						<InGame liar={nowPlaying} />
+					) : (
+						<Waiting />
+					)}
+				</NowPlayingContext.Provider>
+				{!nickname && (
+					<>
+						<NicknameModal setNickname={setNickname} />
+						<div className="modal-background"></div>
+					</>
+				)}
+			</div>
+		</NicknameContext.Provider>
+	);
 }
 
-
 // NicknameContext
-export const NicknameContext = React.createContext()
-export const NowPlayingContext = React.createContext()
+export const NicknameContext = React.createContext();
+export const NowPlayingContext = React.createContext();
