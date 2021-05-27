@@ -9,10 +9,7 @@ import io from "socket.io-client";
 // import { IP_ADDRESS, PORT } from "./networking/constants";
 
 const endPoint = "localhost:3001/";
-export var socket = io.connect(`${endPoint}`, {
-	// path: "/",
-	transport: ["websocket"],
-});
+export var socket = io.connect(`${endPoint}`);
 
 export default function App() {
 	const [nickname, setNickname] = useState("");

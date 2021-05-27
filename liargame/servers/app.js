@@ -5,10 +5,10 @@ const server = require("http").Server(app);
 const cors = require("cors");
 app.use(cors());
 const io = require("socket.io")(server, {
-	cors: { origin: "*", methods: ["GET", "POSTT"], credentials: ture },
+	cors: { origin: "*", methods: ["GET", "POST"], credentials: true },
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 
 // 아이디 저장
 var UserID = [];
