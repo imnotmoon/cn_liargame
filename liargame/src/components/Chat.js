@@ -22,6 +22,7 @@ function Chat({ title, mount }) {
 		e.preventDefault();
 
 		// socekt : 소켓 통신을 통해 서버로 메시지 전송
+		console.log(nickname, inputMessage);
 		socket.emit("chat", {
 			state: "chat",
 			name: nickname,
@@ -74,10 +75,11 @@ function Chat({ title, mount }) {
 
 	useEffect(() => {
 		// socket : 채팅 메시지 수신
-		socket.on("chat", async ({ state, player, text }) => {
+		socket.on("chat", ({ state, player, text }) => {
 			console.log("chat", player, text);
 
 			// 채팅 보낸사람이 나면 self로 바꾸고 아니면 그대로 냅둔다.
+			console.log(player, nickname);
 			player = player === nickname ? "self" : player;
 
 			// pseudo code - 채팅내용을 받아와서 messages 배열에 추가

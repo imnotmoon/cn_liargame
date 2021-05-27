@@ -25,7 +25,7 @@ export default function Waiting() {
 			console.log("enter", player);
 
 			// pseudo code
-			state === "enter" && setPlayers((players) => [...players, player]);
+			state === "enter" && setPlayers(player);
 		});
 
 		// socket : 서버로부터 받은 게임시작 메시지 처리.
