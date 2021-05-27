@@ -8,7 +8,7 @@ import NicknameModal from "./components/NicknameModal";
 import io from "socket.io-client";
 // import { IP_ADDRESS, PORT } from "./networking/constants";
 
-const endPoint = "localhost:3001/";
+const endPoint = "http://13.125.236.234:3001/";
 export var socket = io.connect(`${endPoint}`);
 
 export default function App() {
