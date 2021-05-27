@@ -8,7 +8,7 @@ import NicknameModal from "./components/NicknameModal";
 import io from "socket.io-client";
 // import { IP_ADDRESS, PORT } from "./networking/constants";
 
-const endPoint = "http://localhost:5000";
+const endPoint = "localhost:3001/";
 export var socket = io.connect(`${endPoint}`, {
 	// path: "/",
 	transport: ["websocket"],
