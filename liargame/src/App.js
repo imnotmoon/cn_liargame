@@ -6,9 +6,9 @@ import Waiting from "./views/Waiting";
 import Header from "./components/Header";
 import NicknameModal from "./components/NicknameModal";
 import io from "socket.io-client";
-import { IP_ADDRESS, PORT } from "./networking/constants";
+// import { IP_ADDRESS, PORT } from "./networking/constants";
 
-const endPoint = "http://" + IP_ADDRESS + ":" + PORT;
+const endPoint = "http://localhost:5000";
 export var socket = io.connect(`${endPoint}`, {
 	// path: "/",
 	transport: ["websocket"],
