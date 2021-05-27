@@ -15,9 +15,9 @@ export default function Waiting() {
 	const [liar, setLiar] = useState(false);
 	const [word, setWord] = useState("컴네");
 
-	useEffect(() => {
-		setPlayers([nickname]);
-	}, [nickname]);
+	// useEffect(() => {
+	// 	setPlayers([nickname]);
+	// }, [nickname]);
 
 	useEffect(() => {
 		// socket : 서버로부터 받은 입장 메시지 처리. players 배열에 추가

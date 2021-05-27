@@ -27,7 +27,6 @@ function Chat({ title, mount }) {
 			name: nickname,
 			text: inputMessage,
 		});
-		console.log(socket);
 
 		// messages 배열에 내가 입력한 메시지로 추가
 		// from이 'self'면 내가 보낸 메시지
@@ -75,11 +74,11 @@ function Chat({ title, mount }) {
 
 	useEffect(() => {
 		// socket : 채팅 메시지 수신
-		socket.on("chat", async ({ state, name, text }) => {
-			console.log("chat", name, text);
+		socket.on("chat", async ({ state, player, text }) => {
+			console.log("chat", player, text);
 
 			// 채팅 보낸사람이 나면 self로 바꾸고 아니면 그대로 냅둔다.
-			name = name === nickname ? "self" : name;
+			player = player === nickname ? "self" : player;
 
 			// pseudo code - 채팅내용을 받아와서 messages 배열에 추가
 			// 지금 유저 닉네임 받아와서 비교해야하는데 일단은 그냥 때려박음
@@ -88,7 +87,7 @@ function Chat({ title, mount }) {
 					...messages,
 					{
 						content: text,
-						from: name,
+						from: player,
 					},
 				]);
 		});
