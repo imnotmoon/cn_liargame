@@ -25,52 +25,51 @@ function Chat({ title, mount }) {
 		console.log(nickname, inputMessage);
 		socket.emit("chat", {
 			state: "chat",
-			name: nickname,
+			player: nickname,
 			text: inputMessage,
 		});
 
 		// messages 배열에 내가 입력한 메시지로 추가
 		// from이 'self'면 내가 보낸 메시지
 		// socket : 테스트용!!!!! 통신 제대로 되면 이거 안쓸예정
-		setMessages((messages) => [
-			...messages,
-			{
-				content: inputMessage,
-				from: "self",
-			},
-		]);
+		// setMessages((messages) => [
+		// 	...messages,
+		// 	{
+		// 		content: inputMessage,
+		// 		from: "self",
+		// 	},
+		// ]);
 		setInputMessage("");
 	};
 
 	const inputEnterEvent = (e) => {
 		if (e.key === "Enter" || e.key === "Return") {
-			inputMessage &&
-				setMessages((messages) => [
-					...messages,
-					{
-						content: inputMessage,
-						from: "self",
-					},
-				]);
-			setInputMessage("");
+			onSubmitClick(e);
+			// inputMessage &&
+			// 	setMessages((messages) => [
+			// 		...messages,
+			// 		{
+			// 			content: inputMessage,
+			// 			from: "self",
+			// 		},
+			// 	]);
+			// setInputMessage("");
 		}
 	};
 
 	useEffect(() => {
-		if (mount) {
-			document
-				.getElementById("input-text")
-				.addEventListener("keypress", inputEnterEvent);
-			return () => {
-				try {
-					document
-						.getElementById("input-text")
-						.removeEventListener("keypress", inputEnterEvent);
-				} catch {
-					console.log("아직..");
-				}
-			};
-		}
+		document
+			.getElementById("input-text")
+			.addEventListener("keypress", inputEnterEvent);
+		return () => {
+			try {
+				document
+					.getElementById("input-text")
+					.removeEventListener("keypress", inputEnterEvent);
+			} catch {
+				console.log("아직..");
+			}
+		};
 	});
 
 	useEffect(() => {

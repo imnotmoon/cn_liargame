@@ -59,10 +59,10 @@ io.on("connection", (socket) => {
 
 	// 채팅 관련 송신 및 수신
 	socket.on("chat", (data) => {
-		console.log(data.name, ": ", data.text);
+		console.log(data.player, ": ", data.text);
 		io.emit("chat", {
 			state: "chat",
-			player: data.name,
+			player: data.player,
 			text: data.text,
 		});
 	});
