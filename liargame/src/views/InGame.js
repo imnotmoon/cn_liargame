@@ -1,83 +1,65 @@
-import React, { useState, useEffect, useContext } from 'react'
-import PropTypes from 'prop-types'
-import { NicknameContext, socket } from '../App'
-import Chat from '../components/Chat'
-import Vote from '../components/Vote'
-import FinishModal from '../components/FinishModal'
-import './InGame.css'
+import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
+import { socket } from "../App";
+import Chat from "../components/ChatInGame";
+import Vote from "../components/Vote";
+import FinishModal from "../components/FinishModal";
+import "./InGame.css";
+import axios from "axios";
 
 InGame.propTypes = {
-    // 정상인은 1, 라이어는 2
-    liar: PropTypes.number
-}
+	// 정상인은 1, 라이어는 2
+	liar: PropTypes.number,
+};
 
-export default function InGame({ liar }) {
+export default function InGame({ liar, players, nickname }) {
+	const [finishModal, setFinishModal] = useState(false);
 
-    const [gameTime, setGameTime] = useState(120)
-    const [didMount, setDidMount] = useState(false)
-    const [players, setPlayers] = useState([])
-    const [finishModal, setFinishModal] = useState(false)
-    const [nickname, setNickname] = useContext(NicknameContext)
+	socket.on("result", ({ state, liar, picked }) => {
+		setFinishModal(true);
+		axios
+			.post("http://13.125.236.234:3001/", {
+				vote: "heheheheheheheh",
+			})
+			.then((data) => {
+				console.log(data);
+			});
+	});
 
-    useEffect(() => {
-        //! 테스트용 데이터
-        setPlayers([
-            { nickname: "조세희", vote: 0 },
-            { nickname: "문상혁", vote: 0 },
-            { nickname: "윤두현", vote: 0 },
-            { nickname: "이하은", vote: 0 }
-        ])
-        startTimer()
-        // mount
-        setDidMount(true)
-    }, [])
-
-    // 120초 타이머 -> 끝나면 finish modal을 띄운다.
-    const startTimer = () => {
-        let i = 120
-        let timer = setInterval(() => {
-            setGameTime(gameTime => gameTime - 1, i -= 1)
-            if (i === 0) {
-
-                // socket : 서버로 투표결과 전송
-                const voteMessage = players.find((item) => item.vote === 1)
-                socket.emit('vote', voteMessage)
-
-                setFinishModal(true)
-                clearInterval(timer)
-            }
-        }, 1000)
-    }
-
-    return (
-        <>
-            <NicknameContext.Consumer>
-                {() => (
-                    didMount &&
-                    <>
-                        <div>{gameTime}</div>
-                        <div className="inGame">
-                            <PlayerContext.Provider value={[players, setPlayers]} >
-                                {liar === 1
-                                    ? <Vote liar={false} title="누가 라이어입니까?" />
-                                    : <Vote liar={true} title="나를 지목한 사람" />
-                                }
-                            </PlayerContext.Provider>
-                            <Chat title={liar === 1 ? "단어를 설명해주세요" : "단어에 대해 아는척 해주세요"} mount={didMount} />
-                        </div>
-                        {finishModal &&
-                            <>
-                                <FinishModal liar={liar} nickname={nickname} />
-                                <div className="modal-background"></div>
-                            </>
-                        }
-                    </>
-                )
-                }
-            </NicknameContext.Consumer>
-        </>
-    )
+	return (
+		<>
+			{/* <div>{gameTime}</div> */}
+			<div className="inGame">
+				{liar === 1 ? (
+					<Vote
+						liar={false}
+						title="누가 라이어입니까?"
+						players={players}
+					/>
+				) : (
+					<Vote
+						liar={true}
+						title="나를 지목한 사람"
+						players={players}
+					/>
+				)}
+				<Chat
+					title={
+						liar === 1
+							? "단어를 설명해주세요"
+							: "단어에 대해 아는척 해주세요"
+					}
+				/>
+			</div>
+			{finishModal && (
+				<>
+					<FinishModal liar={liar} nickname={nickname} />
+					<div className="modal-background"></div>
+				</>
+			)}
+		</>
+	);
 }
 
 // vote context
-export const PlayerContext = React.createContext()
+export const PlayerContext = React.createContext();

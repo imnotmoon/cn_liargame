@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NicknameContext, socket } from "../App";
 import PropTypes from "prop-types";
 import "./NicknameModal.css";
@@ -10,12 +10,18 @@ NicknameModal.propTypes = {
 
 export default function NicknameModal({ setNickname }) {
 	const [currentNickname, setCurrentNickname] = useState("");
+	const inputRef = useRef();
+
+	useEffect(() => {
+		inputRef.current.focus();
+	});
 
 	const onInputChange = (e) => {
 		setCurrentNickname(e.currentTarget.value);
 	};
 
 	const onButtonClick = (e) => {
+		console.log(currentNickname);
 		setNickname(currentNickname);
 
 		(() => {
@@ -39,6 +45,7 @@ export default function NicknameModal({ setNickname }) {
 						type="text"
 						placeholder="닉네임"
 						onChange={onInputChange}
+						ref={inputRef}
 					/>
 					<br />
 					<div className="submitBtn" onClick={onButtonClick}>

@@ -14,6 +14,9 @@ export var socket = io.connect(`${endPoint}`);
 export default function App() {
 	const [nickname, setNickname] = useState("");
 	const [nowPlaying, setNowPlaying] = useState(0);
+	const [players, setGamePlayers] = useState([]);
+
+	console.log("APP RENDERED : ", nickname);
 
 	useEffect(() => {
 		socket.on(
@@ -25,15 +28,25 @@ export default function App() {
 		);
 	});
 
+	useEffect(() => {
+		setNickname(nickname);
+	}, [nickname]);
+
 	return (
 		<NicknameContext.Provider value={[nickname, setNickname]}>
 			<div className="App">
 				<Header />
-				<NowPlayingContext.Provider value={setNowPlaying}>
+				<NowPlayingContext.Provider
+					value={{ setNowPlaying, setGamePlayers }}
+				>
 					{nowPlaying !== 0 ? (
-						<InGame liar={nowPlaying} />
+						<InGame
+							liar={nowPlaying}
+							players={players}
+							nickname={nickname}
+						/>
 					) : (
-						<Waiting />
+						<Waiting nickname={nickname} />
 					)}
 				</NowPlayingContext.Provider>
 				{!nickname && (
