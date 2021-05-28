@@ -1,59 +1,42 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import PropTypes from "prop-types";
 import ChatMessage from "./ChatMessage";
 import "./Chat.css";
-import { NicknameContext, socket } from "../App";
+import { socket, NicknameContext } from "../App";
 
 Chat.propTypes = {
 	// 채팅방의 제목
 	title: PropTypes.string.isRequired,
 };
 
+let msg = [];
+
 function Chat({ title, mount }) {
 	const [inputMessage, setInputMessage] = useState(""); // 지금 입력하고 있는 메시지 내용
 	const [messages, setMessages] = useState([]); // 대화내용
 	const [nickname, setNickname] = useContext(NicknameContext);
-
+	const chatLogs = useRef();
 	const onInputChange = (e) => {
 		setInputMessage(e.currentTarget.value);
 	};
+
+	console.log("NICKNAME : ", nickname);
 
 	const onSubmitClick = (e) => {
 		e.preventDefault();
 
 		// socekt : 소켓 통신을 통해 서버로 메시지 전송
-		console.log("emit - chat : ", nickname, inputMessage);
 		socket.emit("chat", {
 			state: "chat",
 			player: nickname,
 			text: inputMessage,
 		});
-
-		// messages 배열에 내가 입력한 메시지로 추가
-		// from이 'self'면 내가 보낸 메시지
-		// socket : 테스트용!!!!! 통신 제대로 되면 이거 안쓸예정
-		// setMessages((messages) => [
-		// 	...messages,
-		// 	{
-		// 		content: inputMessage,
-		// 		from: "self",
-		// 	},
-		// ]);
 		setInputMessage("");
 	};
 
 	const inputEnterEvent = (e) => {
 		if (e.key === "Enter" || e.key === "Return") {
 			onSubmitClick(e);
-			// inputMessage &&
-			// 	setMessages((messages) => [
-			// 		...messages,
-			// 		{
-			// 			content: inputMessage,
-			// 			from: "self",
-			// 		},
-			// 	]);
-			// setInputMessage("");
 		}
 	};
 
@@ -72,8 +55,8 @@ function Chat({ title, mount }) {
 		};
 	});
 
+	// socket : 채팅 메시지 수신
 	useEffect(() => {
-		// socket : 채팅 메시지 수신
 		socket.on("chat", ({ state, player, text }) => {
 			console.log("receive - chat", player, text, nickname);
 
@@ -81,49 +64,38 @@ function Chat({ title, mount }) {
 			player = player === nickname ? "self" : player;
 
 			// pseudo code - 채팅내용을 받아와서 messages 배열에 추가
-			state === "chat" &&
-				setMessages([
-					...messages,
-					{
-						content: text,
-						from: player,
-					},
-				]);
-			console.log(messages);
+			if (state === "chat" && nickname) {
+				msg.push({ content: text, from: player });
+				setMessages([...msg]);
+				chatLogs.current.scrollTop = chatLogs.current.scrollHeight;
+			}
 		});
-
-		// socket : 컴포넌트 죽을때 리스너 제거
-		// return socket.offAny();
-	});
+	}, [nickname]);
 
 	return (
-		<NicknameContext.Consumer>
-			{() => (
-				<div className="chat frame">
-					<div className="chat__title">
-						<p>{title}</p>
-					</div>
-					<div className="chat__content">
-						{messages.map((chat, index) => (
-							<ChatMessage
-								key={index}
-								chat={chat}
-								className="chat__messages"
-							/>
-						))}
-					</div>
-					<div className="chat__sender">
-						<input
-							type="text"
-							onChange={onInputChange}
-							value={inputMessage}
-							id="input-text"
-						/>
-						<button onClick={onSubmitClick}>전송</button>
-					</div>
-				</div>
-			)}
-		</NicknameContext.Consumer>
+		<div className="chat frame">
+			<div className="chat__title">
+				<p>{title}</p>
+			</div>
+			<div className="chat__content" ref={chatLogs}>
+				{messages.map((chat, index) => (
+					<ChatMessage
+						key={index}
+						chat={chat}
+						className="chat__messages"
+					/>
+				))}
+			</div>
+			<div className="chat__sender">
+				<input
+					type="text"
+					onChange={onInputChange}
+					value={inputMessage}
+					id="input-text"
+				/>
+				<button onClick={onSubmitClick}>전송</button>
+			</div>
+		</div>
 	);
 }
 

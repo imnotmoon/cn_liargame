@@ -6,7 +6,7 @@ import StartGameModal from "../components/StartGameModal";
 import "./Waiting.css";
 
 export default function Waiting() {
-	const [nickname, _] = useContext(NicknameContext);
+	const [nickname, setNickname] = useContext(NicknameContext);
 	const setNowPlaying = useContext(NowPlayingContext);
 	const [players, setPlayers] = useState([]);
 	const [activeModal, setActiveModal] = useState(false);
@@ -67,26 +67,22 @@ export default function Waiting() {
 	};
 
 	return (
-		<NicknameContext.Consumer>
-			{() => (
+		<>
+			<button onClick={addPlayer}>테스트</button>
+			<NowPlayingContext.Consumer>
+				{() => (
+					<div className="waiting">
+						<WaitingRoom players={players} />
+						<Chat title={"채팅"} mount={true} />
+					</div>
+				)}
+			</NowPlayingContext.Consumer>
+			{activeModal && (
 				<>
-					<button onClick={addPlayer}>테스트</button>
-					<NowPlayingContext.Consumer>
-						{() => (
-							<div className="waiting">
-								<WaitingRoom players={players} />
-								<Chat title={"채팅"} mount={true} />
-							</div>
-						)}
-					</NowPlayingContext.Consumer>
-					{activeModal && (
-						<>
-							<StartGameModal liar={liar} word={word} />
-							<div className="modal-background"></div>
-						</>
-					)}
+					<StartGameModal liar={liar} word={word} />
+					<div className="modal-background"></div>
 				</>
 			)}
-		</NicknameContext.Consumer>
+		</>
 	);
 }

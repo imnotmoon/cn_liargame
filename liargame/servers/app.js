@@ -27,6 +27,8 @@ var wordArr = [
 	"다이어리",
 	"가방",
 ];
+// 라이어
+var liar;
 
 io.on("connection", (socket) => {
 	console.log("a user connected");
@@ -41,20 +43,19 @@ io.on("connection", (socket) => {
 			state: "enter",
 			player: UserID,
 		});
-	});
-
-	socket.on("gameset", () => {
-		// 라이어 랜덤 설정하기
-		console.log("game start. liar is ", UserID[1]);
-		var randomNumber = Math.floor(Math.random() * 10);
-
-		io.emit("gameset", {
-			state: "gameset",
-			player: UserID,
-			// 랜덤 설정하기
-			liar: UserID[1],
-			word: wordArr[randomNumber],
-		});
+		if (UserID.length === 4) {
+			var randomNumber = Math.floor(Math.random() * 10);
+			// 라이어 기록하기.
+			liar = UserID[randomNumber % 4];
+			console.log("game start. liar is ", liar);
+			// game set response
+			io.emit("gameset", {
+				state: "gameset",
+				player: UserID,
+				liar: liar,
+				word: wordArr[randomNumber],
+			});
+		}
 	});
 
 	// 채팅 관련 송신 및 수신
@@ -67,11 +68,11 @@ io.on("connection", (socket) => {
 		});
 	});
 
-	// vote data
+	// vote data // 투표는 2번 하기 근데 이건 언제 하는데?
 	socket.on("vote", (data) => {
 		console.log(data.name, " vote to : ", data.vote);
 		VoteID.push({ name: data.name, vote: data.vote });
-		if (VoteID.length == 4) {
+		if (VoteID.length === 4) {
 			io.emit("result", {
 				state: "result",
 				liar: UserID[1],
