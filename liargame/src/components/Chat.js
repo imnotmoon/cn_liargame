@@ -22,7 +22,7 @@ function Chat({ title, mount }) {
 		e.preventDefault();
 
 		// socekt : 소켓 통신을 통해 서버로 메시지 전송
-		console.log(nickname, inputMessage);
+		console.log("emit - chat : ", nickname, inputMessage);
 		socket.emit("chat", {
 			state: "chat",
 			player: nickname,
@@ -75,27 +75,26 @@ function Chat({ title, mount }) {
 	useEffect(() => {
 		// socket : 채팅 메시지 수신
 		socket.on("chat", ({ state, player, text }) => {
-			console.log("chat", player, text);
+			console.log("receive - chat", player, text, nickname);
 
 			// 채팅 보낸사람이 나면 self로 바꾸고 아니면 그대로 냅둔다.
-			console.log(player, nickname);
 			player = player === nickname ? "self" : player;
 
 			// pseudo code - 채팅내용을 받아와서 messages 배열에 추가
-			// 지금 유저 닉네임 받아와서 비교해야하는데 일단은 그냥 때려박음
 			state === "chat" &&
-				setMessages((messages) => [
+				setMessages([
 					...messages,
 					{
 						content: text,
 						from: player,
 					},
 				]);
+			console.log(messages);
 		});
 
 		// socket : 컴포넌트 죽을때 리스너 제거
-		return socket.offAny();
-	}, []);
+		// return socket.offAny();
+	});
 
 	return (
 		<NicknameContext.Consumer>
