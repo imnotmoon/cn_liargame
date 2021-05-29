@@ -20,8 +20,6 @@ function Chat({ title }) {
 		setInputMessage(e.currentTarget.value);
 	};
 
-	console.log("RENDER : CHAT : ", nickname);
-
 	const onSubmitClick = (e) => {
 		e.preventDefault();
 
@@ -59,14 +57,10 @@ function Chat({ title }) {
 	useEffect(() => {
 		socket.on("chat", ({ state, player, text }) => {
 			if (state === "chat" && nickname) {
-				console.log("rcvd : ", player, text);
 				// 채팅 보낸사람이 나면 self로 바꾸고 아니면 그대로 냅둔다.
-				console.log("player : ", player, " - nickname : ", nickname);
 				player = player === nickname ? "self" : player;
 
 				// pseudo code - 채팅내용을 받아와서 messages 배열에 추가
-				console.log("nickname : ", player);
-
 				msg.push({ content: text, from: player });
 				console.log(msg);
 				setMessages([...msg]);

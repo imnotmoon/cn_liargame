@@ -13,9 +13,7 @@ export default function Waiting({ nickname }) {
 	const [currentNickname, setCurrentNickname] = useState(nickname);
 
 	const [liar, setLiar] = useState(false);
-	const [word, setWord] = useState("컴네");
-
-	console.log("Waiting RENDERED : ", nickname);
+	const [word, setWord] = useState("김치만두");
 
 	useEffect(() => {
 		// socket : 서버로부터 받은 입장 메시지 처리. players 배열에 추가
@@ -28,10 +26,8 @@ export default function Waiting({ nickname }) {
 		// setLiar : 내가 라이어인지 아닌지
 		// setword : 라이어가 아니라면 설명해야 할 단어
 		socket.on("gameset", ({ state, player, liar, word }) => {
-			console.log("gameset", player, liar, word);
-			console.log(nickname);
-
 			if (state === "gameset") {
+				console.log(liar, word);
 				liar === nickname ? setLiar(true) : setLiar(false);
 				liar && setWord(word);
 				setActiveModal(true);

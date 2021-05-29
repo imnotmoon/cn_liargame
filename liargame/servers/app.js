@@ -3,10 +3,14 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const cors = require("cors");
+const bodyParser = require("body-parser");
 app.use(cors());
 const io = require("socket.io")(server, {
 	cors: { origin: "*", methods: ["GET", "POST"], credentials: true },
 });
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const port = process.env.PORT || 3001;
 
@@ -29,7 +33,6 @@ var wordArr = [
 ];
 // 라이어
 var liar;
-
 io.on("connection", (socket) => {
 	console.log("a user connected");
 	// PORT에 socket id 알려주기
@@ -55,6 +58,14 @@ io.on("connection", (socket) => {
 				liar: liar,
 				word: wordArr[randomNumber],
 			});
+			setTimeout(() => {
+				console.log("result");
+				io.emit("result", {
+					state: "result",
+					liar: liar,
+					picked: voteState,
+				});
+			}, 120000);
 		}
 	});
 
@@ -86,6 +97,36 @@ io.on("connection", (socket) => {
 	socket.on("disconnect", () => {
 		console.log("user disconnected");
 	});
+});
+
+let votecnt = 0;
+let voteState = [];
+let voteToLiar = 0;
+app.post("/", (req, res) => {
+	votecnt += 1;
+	/*
+	 * post body : { nickname : 보낸사람, vote : 누구에게 투표했는지 }
+	 * ex) {"문상혁" : "윤두현"}
+	 */
+	try {
+		if (req.body.vote === liar) {
+			voteToLiar++;
+			console.log(voteToLiar);
+		}
+		voteState.push(req.body);
+		console.log(voteState);
+	} catch (e) {
+		console.log(e);
+	}
+	// 그냥 형식적으로 보내주는 리스폰스
+	// 전부 소켓으로 하면 편하긴 한데 패킷 종류를 여러개로 해야되니까 어거지로 넣음..
+	res.send({ result: liar });
+	if (votecnt === 3)
+		io.emit("end", {
+			state: "end",
+			liar: liar,
+			picked: voteState,
+		});
 });
 
 server.listen(port, () => {

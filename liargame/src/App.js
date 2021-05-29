@@ -16,8 +16,6 @@ export default function App() {
 	const [nowPlaying, setNowPlaying] = useState(0);
 	const [players, setGamePlayers] = useState([]);
 
-	console.log("APP RENDERED : ", nickname);
-
 	useEffect(() => {
 		socket.on(
 			"connection",

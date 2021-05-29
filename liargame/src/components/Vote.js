@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, memo } from "react";
 import PropTypes from "prop-types";
 import { NicknameContext } from "../App";
 import { PlayerContext } from "../views/InGame";
@@ -16,8 +16,6 @@ function Vote({ liar, title, players }) {
 	const [voteCnt, setVoteCnt] = useState(3);
 	const [nickname, setNickname] = useContext(NicknameContext);
 
-	console.log(players);
-
 	const onCheck = (e) => {
 		if (voteCnt > 0) {
 			// 클릭된 플레이어의 인덱스 가져오기 + 클릭된 플레이어에게 체크 + 다른 플레이어에게 체크된거 제거
@@ -27,7 +25,6 @@ function Vote({ liar, title, players }) {
 						? 1
 						: 0;
 			});
-			console.log(players);
 
 			// voteCnt 하나 내리기
 			setVoteCnt((voteCnt) => voteCnt - 1);
@@ -81,4 +78,4 @@ function Vote({ liar, title, players }) {
 	);
 }
 
-export default Vote;
+export default React.memo(Vote);
